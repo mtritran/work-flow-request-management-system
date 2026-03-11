@@ -7,7 +7,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -29,8 +28,16 @@ public class Request {
     @Column(nullable = false)
     String title;
 
+    @Column(nullable = false)
+    String itemName; // Name of equipment or document
+
+    Long price; // Only for equipment
+
     @Column(columnDefinition = "TEXT")
-    String description;
+    String requestReason;
+
+    @Column(columnDefinition = "TEXT")
+    String processedNote; // Admin's note during approve/reject
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -41,23 +48,11 @@ public class Request {
     User requestedBy;
 
     @ManyToOne
-    @JoinColumn(name = "approved_by", nullable = true)
-    User approvedBy;
-
-    @ManyToOne
-    @JoinColumn(name = "rejected_by", nullable = true)
-    User rejectedBy;
-
-    @Column(columnDefinition = "TEXT")
-    String rejectionReason;
-
-    @OneToMany(mappedBy = "request", cascade = CascadeType.ALL, orphanRemoval = true)
-    Set<RequestDetail> details;
+    @JoinColumn(name = "processed_by")
+    User processedBy;
 
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
-    LocalDateTime approvedAt;
-    LocalDateTime rejectedAt;
 }
 
 

@@ -9,7 +9,7 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RequestApprovalRequest {
-    String reason; // Required for rejection, optional for approval
+    String note; // Required for rejection, optional for approval
 }
 
 

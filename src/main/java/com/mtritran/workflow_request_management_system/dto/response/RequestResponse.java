@@ -6,7 +6,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -20,13 +19,12 @@ public class RequestResponse {
     String description;
     RequestStatus status;
     String requestedBy;
-    String approvedBy;
-    String rejectedBy;
-    String rejectionReason;
-    Map<String, String> details;
+    String processedBy;
+    String itemName;
+    Long price;
+    String requestReason;
+    String processedNote;
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
-    LocalDateTime approvedAt;
-    LocalDateTime rejectedAt;
 }
 

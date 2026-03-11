@@ -4,6 +4,7 @@ import com.mtritran.workflow_request_management_system.dto.request.RequestApprov
 import com.mtritran.workflow_request_management_system.dto.request.RequestCreationRequest;
 import com.mtritran.workflow_request_management_system.dto.response.ApiResponse;
 import com.mtritran.workflow_request_management_system.dto.response.RequestResponse;
+import com.mtritran.workflow_request_management_system.enums.RequestStatus;
 import com.mtritran.workflow_request_management_system.service.RequestService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -62,11 +63,14 @@ public class RequestController {
 
     @PutMapping("/{id}/approve")
     @PreAuthorize("hasRole('ADMIN')")
-    public ApiResponse<RequestResponse> approveRequest(@PathVariable String id) {
+    public ApiResponse<RequestResponse> approveRequest(
+            @PathVariable String id,
+            @RequestBody(required = false) RequestApprovalRequest request) {
+        String note = (request != null && request.getNote() != null) ? request.getNote() : "Approved by admin";
         return ApiResponse.<RequestResponse>builder()
                 .code(200)
                 .message("Request approved successfully")
-                .result(requestService.approveRequest(id))
+                .result(requestService.processRequest(id, RequestStatus.APPROVED, note))
                 .build();
     }
 
@@ -78,7 +82,7 @@ public class RequestController {
         return ApiResponse.<RequestResponse>builder()
                 .code(200)
                 .message("Request rejected successfully")
-                .result(requestService.rejectRequest(id, request.getReason()))
+                .result(requestService.processRequest(id, RequestStatus.REJECTED, request.getNote()))
                 .build();
     }
 }

@@ -4,7 +4,7 @@ import com.mtritran.workflow_request_management_system.enums.RequestType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.Map;
+import jakarta.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor
@@ -13,9 +13,13 @@ import java.util.Map;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RequestCreationRequest {
     RequestType requestType;
+
+    @Size(min = 10, max = 100, message = "TITLE_INVALID")
     String title;
-    String description;
-    Map<String, String> details;
+
+    String itemName;
+    Long price;
+    String requestReason;
 }
 
 
